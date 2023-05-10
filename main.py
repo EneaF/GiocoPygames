@@ -16,7 +16,6 @@ screen.fill((172,213,83))
 pygame.display.set_caption("Snake")
 
 clock=pygame.time.Clock()
-fps=7
 campo = Campo(14,20,WINDOW_SIZE)
 # campo.draw(screen)
 
@@ -43,6 +42,16 @@ sizeResetBest=(240,70)
 posQuit=(75,600)
 sizeQuit=(240,70)
 
+posVelScritta=(805,100)
+sizeVelScritta=(190,70)
+
+posVel1=(850,200)
+sizeVel1=(100,70)
+posVel2=(850,300)
+sizeVel2=(100,70)
+posVel3=(850,400)
+sizeVel3=(100,70)
+
 punti = RiqScritto(screen, posPunti, sizePunti, "Punti:")
 best = RiqScritto(screen, posBest, sizeBest, "Best:")
 restart= RiqScritto(screen, posRestart, sizeRestart, "Restart")
@@ -50,6 +59,11 @@ restart= RiqScritto(screen, posRestart, sizeRestart, "Restart")
 Start = RiqScritto(screen, posStart, sizeStart, "START")
 ResetBest = RiqScritto(screen, posResetBest, sizeResetBest, "Reset Best")
 QuitButton = RiqScritto(screen, posQuit, sizeQuit, "Quit")
+
+VelScritta = RiqScritto(screen, posVelScritta, sizeVelScritta, "Velocità")
+Vel1 = RiqScritto(screen, posVel1, sizeVel1, "1")
+Vel2 = RiqScritto(screen, posVel2, sizeVel2, "2")
+Vel3 = RiqScritto(screen, posVel3, sizeVel3, "3")
 
 menu=pygame.image.load("Menu.png")
 Schermo=pygame.Rect((0,0),WINDOW_SIZE)
@@ -156,8 +170,8 @@ def aggiornaBest(NewBest):
         f.write(str(NewBest))
 
 
-
-
+vel=2
+fps=60
 fase=3
 while True:
     
@@ -166,6 +180,10 @@ while True:
         Start.draw(0,"",1)
         ResetBest.draw(0,"",1)
         QuitButton.draw(0,"",1)
+        VelScritta.draw()
+        Vel1.draw(0,"",1)
+        Vel2.draw(0,"",1)
+        Vel3.draw(0,"",1)
         pos = pygame.mouse.get_pos()
         if Start.rect.collidepoint(pos):
             Start.draw()
@@ -173,6 +191,14 @@ while True:
             ResetBest.draw()
         if QuitButton.rect.collidepoint(pos):
             QuitButton.draw()
+        
+        if vel==1:
+            Vel1.draw(2,"",2)
+        if vel==2:
+            Vel2.draw(2,"",2)
+        if vel==3:
+            Vel3.draw(2,"",2)
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -188,6 +214,12 @@ while True:
                     nPunti=0
                     direz=3
                     mangia=0
+                    if vel==1:
+                        fps=4
+                    elif vel==2:
+                        fps=7
+                    else:
+                        fps=11
                 
                 if ResetBest.rect.collidepoint(pos):
                     aggiornaBest(0)
@@ -196,6 +228,15 @@ while True:
                 if QuitButton.rect.collidepoint(pos):
                     pygame.quit()
                     sys.exit()
+                
+                if Vel1.rect.collidepoint(pos):
+                    vel=1
+                if Vel2.rect.collidepoint(pos):
+                    vel=2
+                if Vel3.rect.collidepoint(pos):
+                    vel=3
+            
+
                 
             if event.type == KEYDOWN:
                 if event.key==pygame.K_s:
@@ -231,6 +272,7 @@ while True:
                 
                 if event.key==pygame.K_ESCAPE:
                     fase=3
+                    fps=60
 
                 if event.key==pygame.K_r:
                     testa=FunzRestartTesta(Dim)
@@ -241,7 +283,7 @@ while True:
                     mangia=0
                     nPunti=0
                     fase=1
-                    
+    
         if direz==0:
             disegnaTutto(screen,mela,posMela,posPunti,sizePunti,nPunti,bestScore)
             
@@ -272,8 +314,10 @@ while True:
         
         if collisioneBordi(testa, campo):
             fase=2
+            fps=60
         if collisioneCorpo(testa, corpo):
             fase=2
+            fps=60
         if collisioneMela(testa,mela):
             mangia=1
         
@@ -309,6 +353,12 @@ while True:
                     direz=3
                     mangia=0
                     fase=1
+                    if vel==1:
+                        fps=4
+                    elif vel==2:
+                        fps=7
+                    else:
+                        fps=11
             
             if event.type == KEYDOWN:
                 if event.key==pygame.K_r:
@@ -320,6 +370,12 @@ while True:
                     mangia=0
                     nPunti=0
                     fase=1
+                    if vel==1:
+                        fps=4
+                    elif vel==2:
+                        fps=7
+                    else:
+                        fps=11
                 if event.key==pygame.K_ESCAPE:
                     fase=3
 

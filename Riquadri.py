@@ -23,6 +23,11 @@ class RiqScritto():
                             self.rect.width-self.spessore_bordo*2,self.rect.height-self.spessore_bordo*2),
                             self.spessore_bordo)
             self.image.fill(self.verdeScuro)
+        elif tipo==2:
+            pygame.draw.rect(self.image,self.verdeScuro,
+                            (self.spessore_bordo,self.spessore_bordo,
+                            self.rect.width-self.spessore_bordo*2,self.rect.height-self.spessore_bordo*2),
+                            self.spessore_bordo)
         else:
             pygame.draw.rect(self.image,self.bianco,
                         (self.spessore_bordo,self.spessore_bordo,
@@ -32,6 +37,8 @@ class RiqScritto():
         carattere = pygame.font.Font(None,50)
         if lum==1:
             scritta = carattere.render(self.testo+punti,True,self.grigio)
+        elif lum==2:
+            scritta = carattere.render(self.testo+punti,True,self.verdeScuro)
         else:
             scritta = carattere.render(self.testo+punti,True,self.bianco)
         scrittaRect = scritta.get_rect()
